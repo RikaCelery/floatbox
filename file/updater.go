@@ -53,6 +53,10 @@ var (
 // 传入的 path 的前缀 data/abcde/ 将被删去
 // 以便进行下载, 但保存时仍位于 data/abcde/xxx
 func GetCustomLazyData(dataurl, path string) ([]byte, error) {
+	if IsExist(path) {
+		//logrus.Debugln("[file]获取已下载的文件数据", path)
+		return os.ReadFile(path)
+	}
 	data := lazycache.Get(path)
 	if data != nil {
 		logrus.Debugln("[file]获取缓存的文件数据", path)
