@@ -108,6 +108,16 @@ func GetData(url string) (data []byte, err error) {
 	return
 }
 
+func GetDataRetry(url string, count int) (data []byte, err error) {
+	for i := 0; i < count; i++ {
+		data, err = GetData(url)
+		if err == nil {
+			return
+		}
+	}
+	return nil, err
+}
+
 // PostData 获取数据
 func PostData(url, contentType string, body io.Reader) (data []byte, err error) {
 	var response *http.Response
@@ -125,6 +135,16 @@ func PostData(url, contentType string, body io.Reader) (data []byte, err error) 
 		response.Body.Close()
 	}
 	return
+}
+
+func PostDataRetry(url, contentType string, body io.Reader, count int) (data []byte, err error) {
+	for i := 0; i < count; i++ {
+		data, err = PostData(url, contentType, body)
+		if err == nil {
+			return
+		}
+	}
+	return nil, err
 }
 
 // HeadRequestURL 获取跳转后的链接
