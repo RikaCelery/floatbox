@@ -89,6 +89,20 @@ func RequestDataWithHeaders(client *http.Client, url, method string, setheaders 
 	return
 }
 
+// Status 获取相应码
+func Status(url string) (status int, err error) {
+	var response *http.Response
+	response, err = trshttp.Head(url)
+	if err != nil {
+		response, err = http.Head(url)
+	}
+	if err == nil {
+		response.Body.Close()
+		status = response.StatusCode
+	}
+	return
+}
+
 // GetData 获取数据
 func GetData(url string) (data []byte, err error) {
 	var response *http.Response
